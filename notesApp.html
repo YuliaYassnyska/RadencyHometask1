@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html  lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="notesApp.css">
+        <title>Notes App</title>
+    </head>
+    <body>
+        <div class="styleHeader" id="listHeader">
+            <div class="styleColumn" id="listColumn">
+            </div>
+            <div class="icons">
+                <img src="images/edit.png" alt="Error" width="24rem" height="24rem"/>
+                <img src="images/archived.png" width="24rem" height="24rem"/>
+                <img src="images/delete.png" width="24rem" height="24rem"/>
+            </div>
+        </div>
+        <div class="listContainer">
+
+        </div>
+        <form class="wrapper">
+            <div class="line">
+                <div>Name:</div>
+                <input id="nameID" type="text" placeholder="Enter name" />
+            </div>
+            <div class="line">
+                <div>Category:</div>
+                <select id="selectCategoryID">
+                    <option></option>
+                    <option>Task</option>
+                    <option>Idea</option>
+                    <option>Random Thought</option>
+                </select>
+            </div>
+            <div class="line">
+                <div>Content:</div>
+                <input id="contentID" type="text" placeholder="Enter content"/>
+            </div>
+            <input type="button" class="button" id="addNote" value="Create note"/>
+        </form>
+        <div class="styleHeader" id="totalHeader">
+            <div class="styleColumn" id="totalColumn"></div>
+        </div>
+        <script type="module" src="notesApp.js"></script>
+    </body>
+</html>
