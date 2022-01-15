@@ -5,3 +5,5 @@ export const headers = {
 }
 
 export const options = ['Task', 'Idea', 'Random Thought'];
+
+export const imagePaths = ['edit.png', 'archived.png', 'delete.png'];

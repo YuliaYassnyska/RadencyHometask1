@@ -1,5 +1,6 @@
 import { headers } from './data/optionalData.js'
 import { defaultValues } from './data/defaultData.js';
+import { imagePaths } from './data/optionalData.js';
 
 const totalColumn = document.querySelector('#totalColumn');
 const listColumn = document.querySelector('#listColumn');
@@ -23,13 +24,9 @@ const printDefaultListContainer = () => {
             divColumns.innerHTML = el;
             divRows.appendChild(divColumns)
         })
-
-        let inputImg = document.createElement('input');
-        inputImg.type = 'image'
-        inputImg.src = 'images/edit.png'
-        inputImg.id = 'editID'
-        divRows.appendChild(inputImg);
-
+        imagePaths.map(el => {
+            divRows.appendChild(createInputImage(el));
+        });
         listContainer.appendChild(divRows);
     })
 }
@@ -41,12 +38,10 @@ const printNote = () => {
         divColumns.innerHTML = el;
         divRows.appendChild(divColumns)
     })
-    let inputImg = document.createElement('input');
-    inputImg.type = 'image'
-    inputImg.src = 'images/edit.png'
-    inputImg.id = 'editID'
-    divRows.appendChild(inputImg);
 
+    imagePaths.map(el => {
+        divRows.appendChild(createInputImage(el));
+    });
     listContainer.appendChild(divRows);
 }
 
@@ -87,8 +82,19 @@ const separateDateFromContent = (contentValue) => {
 
     } else {
         values[3] = contentValue;
-        values[4] = ''; // Date from content
+        values[4] = ''; // No date in a content
     }
+}
+
+const createInputImage = (imageNameWithExtention) => {
+    let imgContainer = document.createElement('div')
+    imgContainer.id = 'imgContainer'
+    let inputImg = document.createElement('input');
+    inputImg.type = 'image'
+    inputImg.src = 'images/' + imageNameWithExtention;
+    inputImg.style.filter = 'invert(1) hue-rotate(198deg) saturate(19%) brightness(50%)'
+    imgContainer.appendChild(inputImg)
+    return imgContainer
 }
 
 
