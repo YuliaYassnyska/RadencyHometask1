@@ -1,3 +1,5 @@
 # RadencyHometask1
-To start server need command:
+You need to install live-server:
+npm install -g live-server
+To start server use comand:
 live-server
