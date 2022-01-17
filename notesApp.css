@@ -1,0 +1,85 @@
+.styleHeader {
+  display: flex;
+  flex-direction: row;
+  background-color: #b2b8a3;
+  height: 2rem;
+  color: #ffffff;
+  align-items: center;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 0.8rem 0rem;
+}
+
+.styleColumn {
+  display: flex;
+  flex-direction: row;
+  padding: 0rem 1rem;
+}
+
+.styleColumn div {
+  margin: 0 2rem;
+  width: 10.6rem;
+  padding: 0 0 0 0.4rem;
+  text-align: center;
+}
+
+.icons {
+  display: flex;
+  filter: brightness(0) invert(1);
+  margin-left: 1.8rem;
+}
+
+/*////////////////////////////*/
+
+.listContainer div {
+  display: flex;
+  flex-direction: row;
+  background-color: #d1d9d9;
+  height: 3rem;
+  color: #687980;
+  align-items: center;
+  font-weight: bold;
+  padding: 0rem 1rem;
+  margin: 0 0 0.4rem 0rem;
+}
+
+.listContainer div div {
+  margin: 0 2rem;
+  width: 10.6rem;
+  padding: 0 0 0 0.4rem;
+  justify-content: center;
+}
+/*/ ///////////////////////////*/
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  background-color: #d1d9d9;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #687980;
+  z-index: 3;
+  height: 1rem;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  margin-right: 1rem;
+  z-index: 1;
+}
+
+.title {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.totalTextContainer {
+  font-weight: bold;
+  margin: 0 2rem;
+  width: 10.6rem;
+  padding: 0 0 0 0.4rem;
+  text-align: center;
+}
