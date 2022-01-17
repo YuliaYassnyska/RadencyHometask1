@@ -75,3 +75,11 @@
   display: flex;
   margin-right: 0.5rem;
 }
+
+.totalTextContainer {
+  font-weight: bold;
+  margin: 0 2rem;
+  width: 10.6rem;
+  padding: 0 0 0 0.4rem;
+  text-align: center;
+}

@@ -6,14 +6,20 @@ const totalContainer = document.querySelector('#totalColumn');
 const headerContainer = document.querySelector('#listColumn');
 let listContainer = document.querySelector('.listContainer');
 const btnAddNote = document.querySelector('#addNote');
-let counterId = 0;
+const totalListContainer = document.querySelector('.totalListContainer').children
 
 let currentListRow = ['', '', '', '', ''];
 let firstImgMarginFlag = true;
-let editFlags = [];
+let statesOfEditButton = [];
 let tempElements = [null, null];
-
+let totalParams = [
+    [7, 0],
+    [0, 0],
+    [0, 0]
+]
 let arrayRowID = [];
+
+/////////////////////////////////////////////////////////////   Print functions
 
 const printListHeader = () => {
     headers.notesHeader.map(el => {
@@ -27,6 +33,7 @@ const printDefaultListContainer = () => {
     defaultValues.map((el, index) => {
         let rowOfList = document.createElement('div');
         rowOfList.id = `${index}`;
+        rowOfList.className = `${index}`;
         arrayRowID.push(index);
 
         el.map((el) => {
@@ -34,35 +41,38 @@ const printDefaultListContainer = () => {
             elementOfRow.innerHTML = el;
             rowOfList.appendChild(elementOfRow)
         })
-        imagePaths.map(el => {
-            rowOfList.appendChild(createSettingButton(el));
+        imagePaths.map((el, index) => {
+            rowOfList.appendChild(createSettingButton(el, index));
         });
 
         listContainer.appendChild(rowOfList);
         firstImgMarginFlag = true;
-        editFlags.push(false);
+        statesOfEditButton.push(false);
     })
 }
 
-let newRowID = defaultValues.length;
 const printListContainer = () => {
     let rowOfList = document.createElement('div');
-    arrayRowID.push(arrayRowID[parseInt(arrayRowID.length) - 1] + 1)
-    // console.log(arrayRowID);
+    if (arrayRowID.length === 0)
+        arrayRowID.push(0);
+    else
+        arrayRowID.push(arrayRowID[parseInt(arrayRowID.length) - 1] + 1)
     rowOfList.id = arrayRowID[parseInt(arrayRowID.length) - 1];
+    rowOfList.className = arrayRowID[parseInt(arrayRowID.length) - 1];
+
     currentListRow.map((el) => {
         let elementOfRow = document.createElement('div');
         elementOfRow.innerHTML = el;
         rowOfList.appendChild(elementOfRow)
     })
 
-    imagePaths.map(el => {
-        rowOfList.appendChild(createSettingButton(el));
+    imagePaths.map((el, index) => {
+        rowOfList.appendChild(createSettingButton(el, index));
     });
 
     listContainer.appendChild(rowOfList);
     firstImgMarginFlag = true;
-    editFlags.push(false);
+    statesOfEditButton.push(false);
 }
 
 const printTotalHeader = () => {
@@ -73,7 +83,18 @@ const printTotalHeader = () => {
     })
 }
 
-/////////////////////////////////////////////////////////////
+const printTotalList = () => {
+    for (let i = 0; i < 3; ++i) {
+        totalParams[i].map((el) => {
+            let option = document.createElement('div')
+            option.className = 'totalTextContainer';
+            option.innerHTML = el;
+            totalListContainer[i].appendChild(option);
+        })
+    }
+}
+
+/////////////////////////////////////////////////////////////   Date
 
 const getCurrentDate = () => {
     const nowDate = new Date();
@@ -87,7 +108,7 @@ const separateDateFromContent = (contentValue) => {
 
     if (regEx.test(contentValue)) {
         currentListRow[4] = contentValue.match(regEx)[0];
-        currentListRow[3] = contentValue.replace(regEx);
+        currentListRow[3] = contentValue.replace(regEx, '');
 
     } else {
         currentListRow[3] = contentValue;
@@ -95,9 +116,12 @@ const separateDateFromContent = (contentValue) => {
     }
 }
 
-const createSettingButton = (pathToImage) => {
+/////////////////////////////////////////////////////////////   Buttons
+
+const createSettingButton = (pathToImage, index) => {
+
     let settingButton = document.createElement('input');
-    settingButton.id = `${counterId++} `
+    settingButton.id = (arrayRowID[arrayRowID.length - 1] * 3 + index);
 
     if (firstImgMarginFlag) {
         settingButton.style.marginLeft = '3rem'
@@ -135,15 +159,49 @@ const createEditElements = (arrayOfRows) => {
     arrayOfRows[3].replaceWith(inputContent)
 }
 
-const checkFlags = () => {
-    let checker = false;
-    editFlags.map(el => {
+/////////////////////////////////////////////////////////////
+
+const checkStateEditButton = () => {
+    let checker = -1;
+    statesOfEditButton.map((el, index) => {
         if (el === true)
-            checker = true;
+            checker = index;
     });
-    return checker
+    return checker;
 }
-/////////////////////////////////////////////////////////// Clicks
+
+const changeTotalActive = (category, changeValue) => {
+    switch (category) {
+        case 'Task':
+            totalListContainer[0].children[1].innerHTML = parseInt(totalListContainer[0].children[1].innerHTML) + changeValue;
+            break;
+
+        case 'Idea':
+            totalListContainer[1].children[1].innerHTML = parseInt(totalListContainer[1].children[1].innerHTML) + changeValue;
+            break;
+
+        case 'Random Thought':
+            totalListContainer[2].children[1].innerHTML = parseInt(totalListContainer[2].children[1].innerHTML) + changeValue;
+            break;
+    }
+}
+
+const changeTotalArchive = (category, changeValue) => {
+    switch (category) {
+        case 'Task':
+            totalListContainer[0].children[2].innerHTML = parseInt(totalListContainer[0].children[2].innerHTML) + changeValue;
+            break;
+
+        case 'Idea':
+            totalListContainer[1].children[2].innerHTML = parseInt(totalListContainer[1].children[2].innerHTML) + changeValue;
+            break;
+
+        case 'Random Thought':
+            totalListContainer[2].children[2].innerHTML = parseInt(totalListContainer[2].children[2].innerHTML) + changeValue;
+            break;
+    }
+}
+/////////////////////////////////////////////////////////////   Clicks
 btnAddNote.onclick = () => {
     let nameValue = document.querySelector('#nameID').value;
     let selectCategoryValue = document.querySelector('#selectCategoryID').value;
@@ -155,52 +213,44 @@ btnAddNote.onclick = () => {
     separateDateFromContent(contentValue);
 
     printListContainer();
+
+    changeTotalActive(selectCategoryValue, 1);
 }
 
 const clickSettingButton = (settingButton) => {
     settingButton.addEventListener('click', () => {
         let currentRowID = Math.floor(settingButton.id / 3);
-        let currentRow = document.getElementById(`${currentRowID}`);
-
+        let currentRow = document.getElementsByClassName(currentRowID)[0];
 
         switch (settingButton.id % 3) {
             case 0: {       //Edit
-                if (checkFlags()) {
-                    let previousEditRowID;
-                    editFlags.map((el, index) => {
-                        if (el === true)
-                            previousEditRowID = index;
-                    });
-                    let previousEditRow = document.getElementById(`${previousEditRowID}`).children;
+                let previousEditRowID = checkStateEditButton();
+                if (previousEditRowID !== -1) {
+                    let previousEditRow = document.getElementsByClassName(`${previousEditRowID}`)[0].children;
                     previousEditRow[0].replaceWith(tempElements[0]);
                     previousEditRow[3].replaceWith(tempElements[1]);
                     document.getElementById('btnSave').remove();
-                    editFlags[previousEditRowID] = false;
+                    statesOfEditButton[previousEditRowID] = false;
                 }
-                editFlags[currentRowID] = true;
+                statesOfEditButton[currentRowID] = true;
                 let arrayOfRows = currentRow.children;
                 createEditElements(arrayOfRows);
                 currentRow.appendChild(createSaveButton(currentRow));
                 break;
             }
             case 1: {       //Archive
-                // console.log(currentRow.id)
-                console.log(arrayRowID)
-                //console.log(arrayRowID.indexOf(parseInt(currentRow.id)))
-                console.log(currentRow)
-                console.log(currentRowID)
-
-                counterId -= 3
-                editFlags.splice(currentRow.id, 1);
+                statesOfEditButton.splice(currentRow.id, 1);
                 arrayRowID.splice(arrayRowID.indexOf(parseInt(currentRow.id)), 1);
                 currentRow.remove();
+                changeTotalArchive(currentRow.children[2].innerHTML, 1);
+                changeTotalActive(currentRow.children[2].innerHTML, -1);
                 break;
             }
             case 2: {       //Delete
-                editFlags.splice(currentRowID, 1);
+                statesOfEditButton.splice(currentRow.id, 1);
+                arrayRowID.splice(arrayRowID.indexOf(parseInt(currentRow.id)), 1);
                 currentRow.remove();
-                --newRowID;
-                console.log(editFlags)
+                changeTotalActive(currentRow.children[2].innerHTML, -1);
                 break;
             }
         }
@@ -220,7 +270,7 @@ const clickBtnSave = (btnSave, rowOfElements) => {
         if (currentContentValue !== '')
             arrayOfElements[3].innerHTML = currentContentValue;
         btnSave.remove();
-        editFlags[rowOfElements.id] = false;
+        statesOfEditButton[rowOfElements.id] = false;
     }
 }
 ///////////////////////////////////////////////////////////
@@ -228,4 +278,4 @@ const clickBtnSave = (btnSave, rowOfElements) => {
 printListHeader()
 printDefaultListContainer()
 printTotalHeader()
-
+printTotalList()
