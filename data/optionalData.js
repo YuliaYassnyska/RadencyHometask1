@@ -3,4 +3,4 @@ export const headers = {
     notesHeader: ['Name', 'Created', 'Category', 'Content', 'Dates']
 }
 
-export const imagePaths = ['edit.png', 'archived.png', 'delete.png'];
+export const imagePaths = ['/edit.png', 'archived.png', 'delete.png'];
